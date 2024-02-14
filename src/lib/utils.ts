@@ -76,7 +76,7 @@ export function debounce(fn: () => void, wait: number) {
 
 export function keyListener(dom: HTMLElement | null, hotkey: string, callback: () => void) {
   if (!dom) {
-    console.error('not found dom');
+    console.error('not found Dom');
     return;
   }
 
