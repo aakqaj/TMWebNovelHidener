@@ -39,8 +39,5 @@
     "webpack-cli": "^4.9.2",
     "webpack-dev-server": "^4.9.0"
   },
-  "dependencies": {
-    "chardet": "^2.0.0",
-    "jschardet": "^3.0.0"
-  }
+  "dependencies": {}
 }

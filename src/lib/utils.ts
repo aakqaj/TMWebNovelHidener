@@ -73,54 +73,93 @@ export function debounce(fn: () => void, wait: number) {
     timeout = setTimeout(fn, wait);
   };
 }
+
 export function keyListener(dom: HTMLElement | null, hotkey: string, callback: () => void) {
   if (!dom) {
     console.error('not found dom');
     return;
   }
 
-  // 为div元素添加聚焦以使用键盘监听
+  // 为 div 元素添加聚焦以使用键盘监听
   if (dom.tabIndex === -1) {
     dom.tabIndex = 0;
     dom.style.outline = 'none';
   }
 
-  if (!hotkey.includes('+')) {
-    dom.addEventListener('keyup', (event: KeyboardEvent) => {
-      const key = event.code.toLocaleLowerCase();
-      if (key === hotkey.toLocaleLowerCase()) callback();
-    });
-    return;
-  }
-
-  const [leftKey, rightKey] = hotkey.split('+').map((k) => k.toLowerCase());
-  let leftKeyPressed = false;
-  let rightKeyPressed = false;
+  const modifiers = hotkey.split('+').map((k) => k.toLowerCase());
+  const keys = modifiers.pop() as string;
+  const modifiersPressed: { [key: string]: boolean } = {};
+  modifiers.forEach((modifier) => (modifiersPressed[modifier] = false));
 
   const handleKeyDown = (event: KeyboardEvent) => {
-    const key = event.code.toLocaleLowerCase();
-    if (key === leftKey) {
-      leftKeyPressed = true;
-    }
-    if (leftKeyPressed && key === rightKey) {
-      rightKeyPressed = true;
+    const key = event.code.toLowerCase();
+    if (keys === key && modifiers.every((modifier) => modifiersPressed[modifier])) {
+      callback();
+      event.preventDefault(); // 阻止默认行为
+    } else if (modifiers.includes(key)) {
+      modifiersPressed[key] = true;
     }
   };
 
   const handleKeyUp = (event: KeyboardEvent) => {
-    const key = event.code.toLocaleLowerCase();
-    if (key === leftKey) {
-      leftKeyPressed = false;
-    }
-    if (key === rightKey && leftKeyPressed && rightKeyPressed) {
-      rightKeyPressed = false;
-      callback();
+    const key = event.code.toLowerCase();
+    if (modifiers.includes(key)) {
+      modifiersPressed[key] = false;
     }
   };
 
   dom.addEventListener('keydown', handleKeyDown);
   dom.addEventListener('keyup', handleKeyUp);
 }
+
+// export function keyListener(dom: HTMLElement | null, hotkey: string, callback: () => void) {
+//   if (!dom) {
+//     console.error('not found dom');
+//     return;
+//   }
+
+//   // 为div元素添加聚焦以使用键盘监听
+//   if (dom.tabIndex === -1) {
+//     dom.tabIndex = 0;
+//     dom.style.outline = 'none';
+//   }
+
+//   if (!hotkey.includes('+')) {
+//     dom.addEventListener('keyup', (event: KeyboardEvent) => {
+//       const key = event.code.toLocaleLowerCase();
+//       if (key === hotkey.toLocaleLowerCase()) callback();
+//     });
+//     return;
+//   }
+
+//   const [leftKey, rightKey] = hotkey.split('+').map((k) => k.toLowerCase());
+//   let leftKeyPressed = false;
+//   let rightKeyPressed = false;
+
+//   const handleKeyDown = (event: KeyboardEvent) => {
+//     const key = event.code.toLocaleLowerCase();
+//     if (key === leftKey) {
+//       leftKeyPressed = true;
+//     }
+//     if (leftKeyPressed && key === rightKey) {
+//       rightKeyPressed = true;
+//     }
+//   };
+
+//   const handleKeyUp = (event: KeyboardEvent) => {
+//     const key = event.code.toLocaleLowerCase();
+//     if (key === leftKey) {
+//       leftKeyPressed = false;
+//     }
+//     if (key === rightKey && leftKeyPressed && rightKeyPressed) {
+//       rightKeyPressed = false;
+//       callback();
+//     }
+//   };
+
+//   dom.addEventListener('keydown', handleKeyDown);
+//   dom.addEventListener('keyup', handleKeyUp);
+// }
 
 export function getViewElement(fatherBox: HTMLElement) {
   const fatherRect = fatherBox.getBoundingClientRect(); // 获取父容器的位置信息
