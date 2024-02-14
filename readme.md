@@ -1,10 +1,12 @@
+# 项目地址 
+
+https://github.com/aakqaj/TMWebNovelHidener
+
 ## 开发环境
 
 `Node.js 14+`
 
 `npm or yarn`
-
-
 
 ## 修改配置文件
 
@@ -13,7 +15,7 @@
 然后修改开发环境油猴头文件信息：[`config/dev.meta.json`](config/dev.meta.json) 内下述代码改为自己存放项目的文件路径。
 
 ```json
-"require": ["file://<你的文件路径>/tampermonkey-template/dist/douyu.dev.user.js"]
+"require": ["file://<你的文件路径>/dist/projectname.dev.user.js"]
 ```
 
 > 油猴头文件默认配置在 [`config/common.meta.json`](config/common.meta.json)，按需修改。
@@ -45,3 +47,27 @@ VSCode 内 `ctrl + shift + B` 选择 `start & dev`
 在控制台使用 ctrl + shift + p  或 command + shift + p 在输入框输入 allow pasting 回车.在刷新网页粘贴代码即可.
 
 推荐使用油猴安装脚本 
+https://greasyfork.org/zh-CN/scripts/487296-webnovalhindener
+
+功能
+
+```typescript
+// 快捷键
+shift + 空格 隐藏/替换
+shift + f 显示搜索
+左箭头 上一页
+右箭头 下一页
+
+支持txt小说解析
+解析规则如下
+const Regex = /^.*(楔子|序章|序言|序|引子|第[零一二三四五六七八九十百千0123456789]+[章卷节].*)$/gm;
+如果遇到解析错误的可以尝试修改此段代码
+```
+
+
+
+
+
+## 参考项目及其文档
+
+https://github.com/Eished/tampermonkey-template
