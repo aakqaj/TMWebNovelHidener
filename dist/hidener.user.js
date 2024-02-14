@@ -556,7 +556,7 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.config = void 0;
 var DEFAULT_CONFIG = {
-    hidenMode: "hiden",
+    hidenMode: 'hiden',
     replaceText: "\u3010\u534E\u4E3A\u5BA2\u670D\u3011\u5C0A\u656C\u7684\u534E\u4E3A\u7528\u6237\uFF0C\u611F\u8C22\u60A8\u7684\u6765\u7535\uFF0C\n    \u5728\u7535\u8111\u9ED8\u8BA4\u6D4F\u89C8\u5668\u5730\u5740\u680F\uFF08\u6700\u4E0A\u9762\u7684\u641C\u7D22\u680F\uFF09\u8F93\u5165\u4EE5\u4E0B\u7F51\u5740\n    https://app.huawei.com/pc\uFF08\u6CE8\uFF1A\u4E0D\u8981\u4F7F\u7528\u5FAE\u4FE1\u6253\u5F00\u6B64\u94FE\u63A5\uFF0C\u5FAE\u4FE1\u4F1A\u62E6\u622A\u94FE\u63A5\uFF09\n    \u5982\u60A8\u6709\u4EFB\u4F55\u7591\u95EE\u6B22\u8FCE\u968F\n    \u65F6\u81F4\u7535950800\uFF0C\u6211\u4EEC\u4F1A\u4E00\u76F4\u4E3A\u60A8\u63D0\u4F9B\u6E29\u6696\u670D\u52A1\uFF0C\u611F\u8C22\u60A8\u7684\u652F\u6301\uFF0C\u795D\u60A8\u751F\u6D3B\u6109\u5FEB\uFF01",
     Mask: false,
     width: 360,
@@ -564,13 +564,13 @@ var DEFAULT_CONFIG = {
     position: [230, 150],
     TitleSize: 14,
     ContentSize: 12,
-    Theme: "light",
+    Theme: 'light',
     HotKey: {
-        hiden: "AltLeft+Space",
-        search: "AltLeft+KeyF",
-        next: "ArrowRight",
-        pre: "ArrowLeft"
-    }
+        hiden: 'ShiftLeft+Space',
+        search: 'ShiftLeft+KeyF',
+        next: 'ArrowRight',
+        pre: 'ArrowLeft',
+    },
 };
 var CONFIG_KEY = 'webHidenerConfig';
 var Config = /** @class */ (function () {
@@ -582,6 +582,9 @@ var Config = /** @class */ (function () {
         var storedConfig = localStorage.getItem(CONFIG_KEY);
         if (storedConfig) {
             this.config = JSON.parse(storedConfig);
+        }
+        else {
+            this.saveConfig();
         }
     };
     Config.prototype.updateConfig = function (con) {
@@ -1179,15 +1182,15 @@ function fileParse() {
         var uploadDiv;
         var _this = this;
         return __generator(this, function (_a) {
-            uploadDiv = document.querySelector(".upload");
+            uploadDiv = document.querySelector('.upload');
             if (uploadDiv && !uploadDiv.onclick) {
-                uploadDiv.addEventListener("click", function () { return __awaiter(_this, void 0, void 0, function () {
+                uploadDiv.addEventListener('click', function () { return __awaiter(_this, void 0, void 0, function () {
                     var fileInput, content, titles;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
                             case 0:
                                 fileInput = document.getElementById('fileInput');
-                                fileInput.value = "";
+                                fileInput.value = '';
                                 fileInput.click();
                                 return [4 /*yield*/, (0, utils_1.getFileContent)()];
                             case 1:
@@ -1196,7 +1199,7 @@ function fileParse() {
                                 console.log(titles);
                                 book_1.default.setBook({
                                     content: content,
-                                    titles: titles
+                                    titles: titles,
                                 });
                                 return [2 /*return*/];
                         }
@@ -1277,7 +1280,7 @@ function getFileContent() {
             return [2 /*return*/, new Promise(function (resolve, reject) {
                     var fileInput = document.getElementById('fileInput');
                     if (!fileInput) {
-                        reject("File input not found");
+                        reject('File input not found');
                         return;
                     }
                     function initFileInput() {
@@ -1285,7 +1288,7 @@ function getFileContent() {
                             var _a, _b;
                             var file = (_b = (_a = event.target) === null || _a === void 0 ? void 0 : _a.files) === null || _b === void 0 ? void 0 : _b[0];
                             if (!file) {
-                                reject("No file uploaded");
+                                reject('No file uploaded');
                                 return;
                             }
                             var reader = new FileReader();
@@ -1323,11 +1326,11 @@ function getContentByTitle(titleOrIndex, content, chapters) {
         startIndex = titleOrIndex;
     }
     if (startIndex === -1) {
-        return "";
+        return '';
     }
-    var nextTitleIndex = chapters.findIndex(function (chapter, index) { return index > startIndex && chapter.title !== ""; });
+    var nextTitleIndex = chapters.findIndex(function (chapter, index) { return index > startIndex && chapter.title !== ''; });
     if (!((_a = chapters[nextTitleIndex]) === null || _a === void 0 ? void 0 : _a.title))
-        return "";
+        return '';
     var endIndex = nextTitleIndex === -1 ? content.length : content.indexOf(chapters[nextTitleIndex].title);
     var start = content.indexOf(chapters[startIndex].title) + chapters[startIndex].title.length;
     var text = content.substring(start, endIndex);
@@ -1349,48 +1352,80 @@ function debounce(fn, wait) {
 exports.debounce = debounce;
 function keyListener(dom, hotkey, callback) {
     if (!dom) {
-        console.error("not found dom");
+        console.error('not found Dom');
         return;
     }
-    // 为div元素添加聚焦以使用键盘监听
+    // 为 div 元素添加聚焦以使用键盘监听
     if (dom.tabIndex === -1) {
         dom.tabIndex = 0;
-        dom.style.outline = "none";
+        dom.style.outline = 'none';
     }
-    if (!hotkey.includes("+")) {
-        dom.addEventListener('keyup', function (event) {
-            var key = event.code.toLocaleLowerCase();
-            if (key === hotkey.toLocaleLowerCase())
-                callback();
-        });
-        return;
-    }
-    var _a = hotkey.split("+").map(function (k) { return k.toLowerCase(); }), leftKey = _a[0], rightKey = _a[1];
-    var leftKeyPressed = false;
-    var rightKeyPressed = false;
+    var modifiers = hotkey.split('+').map(function (k) { return k.toLowerCase(); });
+    var keys = modifiers.pop();
+    var modifiersPressed = {};
+    modifiers.forEach(function (modifier) { return (modifiersPressed[modifier] = false); });
     var handleKeyDown = function (event) {
-        var key = event.code.toLocaleLowerCase();
-        if (key === leftKey) {
-            leftKeyPressed = true;
+        var key = event.code.toLowerCase();
+        if (keys === key && modifiers.every(function (modifier) { return modifiersPressed[modifier]; })) {
+            callback();
+            event.preventDefault(); // 阻止默认行为
         }
-        if (leftKeyPressed && key === rightKey) {
-            rightKeyPressed = true;
+        else if (modifiers.includes(key)) {
+            modifiersPressed[key] = true;
         }
     };
     var handleKeyUp = function (event) {
-        var key = event.code.toLocaleLowerCase();
-        if (key === leftKey) {
-            leftKeyPressed = false;
-        }
-        if (key === rightKey && leftKeyPressed && rightKeyPressed) {
-            rightKeyPressed = false;
-            callback();
+        var key = event.code.toLowerCase();
+        if (modifiers.includes(key)) {
+            modifiersPressed[key] = false;
         }
     };
     dom.addEventListener('keydown', handleKeyDown);
     dom.addEventListener('keyup', handleKeyUp);
 }
 exports.keyListener = keyListener;
+// export function keyListener(dom: HTMLElement | null, hotkey: string, callback: () => void) {
+//   if (!dom) {
+//     console.error('not found dom');
+//     return;
+//   }
+//   // 为div元素添加聚焦以使用键盘监听
+//   if (dom.tabIndex === -1) {
+//     dom.tabIndex = 0;
+//     dom.style.outline = 'none';
+//   }
+//   if (!hotkey.includes('+')) {
+//     dom.addEventListener('keyup', (event: KeyboardEvent) => {
+//       const key = event.code.toLocaleLowerCase();
+//       if (key === hotkey.toLocaleLowerCase()) callback();
+//     });
+//     return;
+//   }
+//   const [leftKey, rightKey] = hotkey.split('+').map((k) => k.toLowerCase());
+//   let leftKeyPressed = false;
+//   let rightKeyPressed = false;
+//   const handleKeyDown = (event: KeyboardEvent) => {
+//     const key = event.code.toLocaleLowerCase();
+//     if (key === leftKey) {
+//       leftKeyPressed = true;
+//     }
+//     if (leftKeyPressed && key === rightKey) {
+//       rightKeyPressed = true;
+//     }
+//   };
+//   const handleKeyUp = (event: KeyboardEvent) => {
+//     const key = event.code.toLocaleLowerCase();
+//     if (key === leftKey) {
+//       leftKeyPressed = false;
+//     }
+//     if (key === rightKey && leftKeyPressed && rightKeyPressed) {
+//       rightKeyPressed = false;
+//       callback();
+//     }
+//   };
+//   dom.addEventListener('keydown', handleKeyDown);
+//   dom.addEventListener('keyup', handleKeyUp);
+// }
 function getViewElement(fatherBox) {
     var fatherRect = fatherBox.getBoundingClientRect(); // 获取父容器的位置信息
     var scrollTop = fatherBox.scrollTop; // 获取父容器的滚动位置
