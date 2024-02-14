@@ -1,0 +1,11 @@
+@font-face {
+  font-family: xui-common;
+  src: url(./xui-common-2a78327afd053eb3f9da.eot);
+  src: url(./xui-common-2a78327afd053eb3f9da.eot#iefix) format('embedded-opentype'),
+    url(./xui-common-8e91e00c259c2a852df8.ttf) format('truetype'),
+    url(./xui-common-7fed4f49907ac1050cb0.woff) format('woff'),
+    url(./xui-common-2c5107ced138187aa186.svg#xui-common) format('svg');
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}

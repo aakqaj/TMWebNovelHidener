@@ -12,12 +12,8 @@ if (PRODUCTION) {
       app();
     } else {
       // 第一次启动时自动安装油猴脚本
+      app()
       autoInstall();
-
-      // 运行不需要油猴环境的js，用于模拟目标网页原本逻辑。不需要模拟可以删除
-      import('@/mock/douyuPlayer').then(({ douyuPlayer }) => {
-        douyuPlayer();
-      });
     }
   });
 }

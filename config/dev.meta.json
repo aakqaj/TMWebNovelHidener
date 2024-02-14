@@ -1,7 +1,15 @@
 {
-  "name": "斗鱼直播助手-dev",
-  "namespace": "https://github.com/Eished/douyu-helper-dev",
-  "match": ["*://*.douyu.com/*", "*://*.localhost/*"],
-  "grant": ["GM_getValue", "GM_setValue", "GM_registerMenuCommand", "GM_addValueChangeListener"],
-  "require": ["file://\\\\wsl$\\Ubuntu-20.04\\home\\eis\\web\\tampermonkey-template\\dist\\douyu.dev.user.js"]
+  "name": "WebNovalHindener",
+  "match": [
+    "*://*.localhost/*"
+  ],
+  "grant": [
+    "GM_getValue",
+    "GM_setValue",
+    "GM_registerMenuCommand",
+    "GM_addValueChangeListener"
+  ],
+  "require": [
+    "file:/Users/wenmang/BsProjects/TMWebNovelHidener/dist/hidener.dev.user.js"
+  ]
 }
