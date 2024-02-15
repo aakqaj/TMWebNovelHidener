@@ -59,3 +59,19 @@ $RECYCLE.BIN/
 node_modules
 node_modules
 node_modules
+
+# Ignore GitHub workflows
+.github/workflows/
+
+# Ignore Visual Studio Code configuration
+.vscode/
+
+# Ignore Prettier configuration
+.prettierrc.js
+
+# Ignore Yarn lock file
+yarn.lock
+
+# Ignore npm lock file
+package-lock.json
+
