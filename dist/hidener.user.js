@@ -990,7 +990,7 @@ var book_1 = __importDefault(__webpack_require__(464));
 var utils_1 = __webpack_require__(721);
 function toNext() {
     var _a;
-    var father = document.querySelector("#webNovelHidener .wnhView .novel");
+    var father = document.querySelector('#webNovelHidener .wnhView .novel');
     var viewEle = (0, utils_1.getViewElement)(father);
     if (!viewEle)
         return;
@@ -1000,7 +1000,7 @@ function toNext() {
 }
 exports.toNext = toNext;
 function toPre() {
-    var father = document.querySelector("#webNovelHidener .wnhView .novel");
+    var father = document.querySelector('#webNovelHidener .wnhView .novel');
     var viewEle = (0, utils_1.getViewElement)(father);
     if (!viewEle)
         return;
@@ -1014,22 +1014,23 @@ function toPre() {
 }
 exports.toPre = toPre;
 function clearContents() {
-    var fa = document.querySelector(".wnhView .novel");
-    fa.innerHTML = "";
+    var fa = document.querySelector('.wnhView .novel');
+    fa.innerHTML = '';
 }
 exports.clearContents = clearContents;
 function renderContent(index, isBefore) {
     var _a;
     if (isBefore === void 0) { isBefore = false; }
     var title = (_a = book_1.default.searchTitle(index)) === null || _a === void 0 ? void 0 : _a.title;
-    var fa = document.querySelector(".wnhView .novel");
+    var fa = document.querySelector('.wnhView .novel');
     var content = book_1.default.getContent(index);
-    var part = document.createElement("div");
+    var part = document.createElement('div');
+    var filterContent = (0, utils_1.adjustNewlines)(content);
     if (!content)
         return;
-    part.className = "part";
+    part.className = 'part';
     part.id = "p".concat(index);
-    part.innerHTML = "\n    <div class=\"title\">".concat(title, "</div>\n    <div style=\"white-space: pre-wrap;\">").concat(content, "</div>\n    ");
+    part.innerHTML = "\n    <div class=\"title\">".concat(title, "</div>\n    <div style=\"white-space: pre-wrap;\">").concat(filterContent, "</div>\n    ");
     if (isBefore) {
         var firstChild = fa.firstChild;
         fa.insertBefore(part, firstChild);
@@ -1040,7 +1041,7 @@ function renderContent(index, isBefore) {
 exports.renderContent = renderContent;
 function renderNext(cur) {
     if (cur === void 0) { cur = null; }
-    var fa = document.querySelector(".wnhView .novel");
+    var fa = document.querySelector('.wnhView .novel');
     var lastChild = fa.lastElementChild;
     if (!lastChild)
         return;
@@ -1051,7 +1052,7 @@ function renderNext(cur) {
 exports.renderNext = renderNext;
 function renderPre(cur) {
     if (cur === void 0) { cur = null; }
-    var fa = document.querySelector(".wnhView .novel");
+    var fa = document.querySelector('.wnhView .novel');
     var firstChild = fa.firstElementChild;
     if (!firstChild)
         return;
@@ -1114,10 +1115,10 @@ exports.reloadConfigPage = reloadConfigPage;
 //     }
 //     //字体样式更新
 //     updateStyle(`
-//         #webNovelHidener .novel .part{ 
+//         #webNovelHidener .novel .part{
 //          font-size: ${config.config.ContentSize}px;
 //         }
-//         #webNovelHidener .novel .part .title{ 
+//         #webNovelHidener .novel .part .title{
 //             font-size: ${config.config.TitleSize}px;
 //            }
 //          `)
@@ -1273,7 +1274,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.updateStyle = exports.getViewElement = exports.keyListener = exports.debounce = exports.isNumeric = exports.getContentByTitle = exports.splitNovelByTitle = exports.getFileContent = void 0;
+exports.adjustNewlines = exports.updateStyle = exports.getViewElement = exports.keyListener = exports.debounce = exports.isNumeric = exports.getContentByTitle = exports.splitNovelByTitle = exports.getFileContent = void 0;
 function getFileContent() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
@@ -1453,6 +1454,17 @@ function updateStyle(cssText) {
     document.head.appendChild(style);
 }
 exports.updateStyle = updateStyle;
+function adjustNewlines(text) {
+    return text
+        .split('\n')
+        .filter(function (t) {
+        var tt = t.trim();
+        return tt !== '\r' && tt !== '';
+    })
+        .map(function (i) { return '　　' + i.trim(); })
+        .reduce(function (pre, cur) { return pre + '\n\n' + cur; }, '');
+}
+exports.adjustNewlines = adjustNewlines;
 
 
 /***/ })

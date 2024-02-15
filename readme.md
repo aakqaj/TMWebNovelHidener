@@ -44,7 +44,9 @@ VSCode 内 `ctrl + shift + B` 选择 `start & dev`
 ## Warning: Don’t paste code into the DevTools Console that you don’t understand or haven’t reviewed yourself. This could allow attackers to steal your identity or take control of your computer. Please type ‘allow pasting’ below to allow pasting.
 ```
 
-在控制台使用 ctrl + shift + p  或 command + shift + p 在输入框输入 allow pasting 回车.在刷新网页粘贴代码即可.
+在控制台输入 allow pasting 回车.在刷新网页粘贴代码.
+
+
 
 推荐使用油猴安装脚本 
 https://greasyfork.org/zh-CN/scripts/487296-webnovalhindener
