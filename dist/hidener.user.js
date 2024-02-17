@@ -1318,7 +1318,7 @@ function splitNovelByTitle(novelText) {
 }
 exports.splitNovelByTitle = splitNovelByTitle;
 function getContentByTitle(titleOrIndex, content, chapters) {
-    var _a;
+    var _a, _b, _c;
     var startIndex;
     if (typeof titleOrIndex === 'string') {
         startIndex = chapters.findIndex(function (chapter) { return chapter.title === titleOrIndex; });
@@ -1326,18 +1326,34 @@ function getContentByTitle(titleOrIndex, content, chapters) {
     else {
         startIndex = titleOrIndex;
     }
-    if (startIndex === -1) {
+    if (startIndex === -1 || startIndex > chapters.length - 1) {
         return '';
     }
-    var nextTitleIndex = chapters.findIndex(function (chapter, index) { return index > startIndex && chapter.title !== ''; });
-    if (!((_a = chapters[nextTitleIndex]) === null || _a === void 0 ? void 0 : _a.title))
-        return '';
-    var endIndex = nextTitleIndex === -1 ? content.length : content.indexOf(chapters[nextTitleIndex].title);
-    var start = content.indexOf(chapters[startIndex].title) + chapters[startIndex].title.length;
+    var nextTitleIndex = chapters.findIndex(function (chapter, index) { return index > startIndex && (chapter === null || chapter === void 0 ? void 0 : chapter.title) !== ''; });
+    var endIndex = nextTitleIndex === -1 ? content.length : content.indexOf((_a = chapters[nextTitleIndex]) === null || _a === void 0 ? void 0 : _a.title);
+    var start = content.indexOf((_b = chapters[startIndex]) === null || _b === void 0 ? void 0 : _b.title) + ((_c = chapters[startIndex]) === null || _c === void 0 ? void 0 : _c.title.length);
     var text = content.substring(start, endIndex);
     return text;
 }
 exports.getContentByTitle = getContentByTitle;
+// export function getContentByTitle(titleOrIndex: string | number, content: string, chapters: Chapter[]): string {
+//   let startIndex: number;
+//   if (typeof titleOrIndex === 'string') {
+//     startIndex = chapters.findIndex((chapter) => chapter.title === titleOrIndex);
+//   } else {
+//     startIndex = titleOrIndex;
+//   }
+//   if (startIndex === -1) {
+//     return '';
+//   }
+//   const nextTitleIndex = chapters.findIndex((chapter, index) => index > startIndex && chapter.title !== '');
+//   if (!chapters[nextTitleIndex]?.title) return '';
+//   console.log({ nextTitleIndex, startIndex });
+//   const endIndex = nextTitleIndex === -1 ? content.length : content.indexOf(chapters[nextTitleIndex].title);
+//   const start = content.indexOf(chapters[startIndex].title) + chapters[startIndex].title.length;
+//   const text = content.substring(start, endIndex);
+//   return text;
+// }
 function isNumeric(str) {
     return /^\d+$/.test(str);
 }
