@@ -196,12 +196,14 @@ export function updateStyle(cssText: string) {
 }
 
 export function adjustNewlines(text: string) {
-  return text
-    .split('\n')
-    .filter((t) => {
-      const tt = t.trim();
-      return tt !== '\r' && tt !== '';
-    })
-    .map((i) => '　　' + i.trim())
-    .reduce((pre, cur) => pre + '\n\n' + cur, '');
+  return (
+    text
+      .split('\n')
+      .filter((t) => {
+        const tt = t.trim();
+        return tt !== '\r' && tt !== '';
+      })
+      .map((i) => '　　' + i.trim())
+      .reduce((pre, cur) => pre + '\n\n' + cur, '') + '\r\r\n\n'
+  );
 }
