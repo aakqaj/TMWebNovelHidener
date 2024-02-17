@@ -39,7 +39,6 @@ export function splitNovelByTitle(novelText: string): Chapter[] {
   if (!matches) return [];
   return matches.map((title) => ({ title }));
 }
-
 export function getContentByTitle(titleOrIndex: string | number, content: string, chapters: Chapter[]): string {
   let startIndex: number;
   if (typeof titleOrIndex === 'string') {
@@ -48,19 +47,41 @@ export function getContentByTitle(titleOrIndex: string | number, content: string
     startIndex = titleOrIndex;
   }
 
-  if (startIndex === -1) {
+  if (startIndex === -1 || startIndex > chapters.length - 1) {
     return '';
   }
 
-  const nextTitleIndex = chapters.findIndex((chapter, index) => index > startIndex && chapter.title !== '');
-  if (!chapters[nextTitleIndex]?.title) return '';
-  const endIndex = nextTitleIndex === -1 ? content.length : content.indexOf(chapters[nextTitleIndex].title);
+  const nextTitleIndex = chapters.findIndex((chapter, index) => index > startIndex && chapter?.title !== '');
+  const endIndex = nextTitleIndex === -1 ? content.length : content.indexOf(chapters[nextTitleIndex]?.title);
 
-  const start = content.indexOf(chapters[startIndex].title) + chapters[startIndex].title.length;
+  const start = content.indexOf(chapters[startIndex]?.title) + chapters[startIndex]?.title.length;
   const text = content.substring(start, endIndex);
-
   return text;
 }
+
+// export function getContentByTitle(titleOrIndex: string | number, content: string, chapters: Chapter[]): string {
+//   let startIndex: number;
+//   if (typeof titleOrIndex === 'string') {
+//     startIndex = chapters.findIndex((chapter) => chapter.title === titleOrIndex);
+//   } else {
+//     startIndex = titleOrIndex;
+//   }
+
+//   if (startIndex === -1) {
+//     return '';
+//   }
+
+//   const nextTitleIndex = chapters.findIndex((chapter, index) => index > startIndex && chapter.title !== '');
+//   if (!chapters[nextTitleIndex]?.title) return '';
+
+//   console.log({ nextTitleIndex, startIndex });
+
+//   const endIndex = nextTitleIndex === -1 ? content.length : content.indexOf(chapters[nextTitleIndex].title);
+
+//   const start = content.indexOf(chapters[startIndex].title) + chapters[startIndex].title.length;
+//   const text = content.substring(start, endIndex);
+//   return text;
+// }
 
 export function isNumeric(str: string): boolean {
   return /^\d+$/.test(str);
