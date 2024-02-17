@@ -1455,14 +1455,14 @@ function updateStyle(cssText) {
 }
 exports.updateStyle = updateStyle;
 function adjustNewlines(text) {
-    return text
+    return (text
         .split('\n')
         .filter(function (t) {
         var tt = t.trim();
         return tt !== '\r' && tt !== '';
     })
         .map(function (i) { return '　　' + i.trim(); })
-        .reduce(function (pre, cur) { return pre + '\n\n' + cur; }, '');
+        .reduce(function (pre, cur) { return pre + '\n\n' + cur; }, '') + '\r\r\n\n');
 }
 exports.adjustNewlines = adjustNewlines;
 
