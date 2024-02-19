@@ -34,10 +34,10 @@ export async function getFileContent() {
 }
 
 export function splitNovelByTitle(novelText: string): Chapter[] {
-  const titleRegex = /^.*(楔子|序章|序言|序|引子|第[零一二三四五六七八九十百千0123456789]+[章卷节].*)$/gm;
+  const titleRegex = /^(?:\s*|^)(楔子|序章|序言|序|引子|第[零一二三四五六七八九十百千0123456789]+[章卷节].*)$/gm;
   const matches = novelText.match(titleRegex);
   if (!matches) return [];
-  return matches.map((title) => ({ title }));
+  return matches.map((title) => ({ title: title.trim() }));
 }
 export function getContentByTitle(titleOrIndex: string | number, content: string, chapters: Chapter[]): string {
   let startIndex: number;
