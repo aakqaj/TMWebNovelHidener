@@ -1310,11 +1310,11 @@ function getFileContent() {
 }
 exports.getFileContent = getFileContent;
 function splitNovelByTitle(novelText) {
-    var titleRegex = /^.*(楔子|序章|序言|序|引子|第[零一二三四五六七八九十百千0123456789]+[章卷节].*)$/gm;
+    var titleRegex = /^(?:\s*|^)(楔子|序章|序言|序|引子|第[零一二三四五六七八九十百千0123456789]+[章卷节].*)$/gm;
     var matches = novelText.match(titleRegex);
     if (!matches)
         return [];
-    return matches.map(function (title) { return ({ title: title }); });
+    return matches.map(function (title) { return ({ title: title.trim() }); });
 }
 exports.splitNovelByTitle = splitNovelByTitle;
 function getContentByTitle(titleOrIndex, content, chapters) {
