@@ -558,12 +558,12 @@ exports.config = void 0;
 var DEFAULT_CONFIG = {
     hidenMode: 'hiden',
     replaceText: "\u3010\u534E\u4E3A\u5BA2\u670D\u3011\u5C0A\u656C\u7684\u534E\u4E3A\u7528\u6237\uFF0C\u611F\u8C22\u60A8\u7684\u6765\u7535\uFF0C\n    \u5728\u7535\u8111\u9ED8\u8BA4\u6D4F\u89C8\u5668\u5730\u5740\u680F\uFF08\u6700\u4E0A\u9762\u7684\u641C\u7D22\u680F\uFF09\u8F93\u5165\u4EE5\u4E0B\u7F51\u5740\n    https://app.huawei.com/pc\uFF08\u6CE8\uFF1A\u4E0D\u8981\u4F7F\u7528\u5FAE\u4FE1\u6253\u5F00\u6B64\u94FE\u63A5\uFF0C\u5FAE\u4FE1\u4F1A\u62E6\u622A\u94FE\u63A5\uFF09\n    \u5982\u60A8\u6709\u4EFB\u4F55\u7591\u95EE\u6B22\u8FCE\u968F\n    \u65F6\u81F4\u7535950800\uFF0C\u6211\u4EEC\u4F1A\u4E00\u76F4\u4E3A\u60A8\u63D0\u4F9B\u6E29\u6696\u670D\u52A1\uFF0C\u611F\u8C22\u60A8\u7684\u652F\u6301\uFF0C\u795D\u60A8\u751F\u6D3B\u6109\u5FEB\uFF01",
-    Mask: false,
+    Mask: true,
     width: 360,
     height: 500,
     position: [230, 150],
     TitleSize: 14,
-    ContentSize: 12,
+    ContentSize: 14,
     Theme: 'light',
     HotKey: {
         hiden: 'ShiftLeft+Space',
@@ -735,7 +735,7 @@ function addSearchEvent() {
         var keyboardEvent = event;
         if (keyboardEvent.key === 'Enter') {
             var searchString = event.target.value;
-            event.target.value = "";
+            event.target.value = '';
             var res = book_1.default.searchTitle(searchString);
             if (!res || !searchString)
                 return;
@@ -768,59 +768,58 @@ function addScrollEvent() {
 }
 exports.addScrollEvent = addScrollEvent;
 function addConfigEvent() {
-    var configBtn = document.querySelector("#webNovelHidener .settings");
-    var novel = document.querySelector("#webNovelHidener .novel");
-    var config = document.querySelector("#webNovelHidener .config");
+    var configBtn = document.querySelector('#webNovelHidener .settings');
+    var novel = document.querySelector('#webNovelHidener .novel');
+    var config = document.querySelector('#webNovelHidener .config');
     configBtn.onclick = function () {
         (0, page_1.reloadConfigPage)();
-        novel.style.zIndex = novel.style.zIndex === "101" ? "102" : "101";
-        config.style.zIndex = config.style.zIndex === "102" ? "101" : "102";
+        novel.style.zIndex = novel.style.zIndex === '101' ? '102' : '101';
+        config.style.zIndex = config.style.zIndex === '102' ? '101' : '102';
     };
 }
 exports.addConfigEvent = addConfigEvent;
 function addGlobalHotKeyListener() {
-    var app = document.querySelector("#webNovelHidener");
-    var replace = document.querySelector("#webNovelHidener .replace");
+    var app = document.querySelector('#webNovelHidener');
+    var replace = document.querySelector('#webNovelHidener .replace');
     (0, utils_1.keyListener)(document.body, Config_1.config.config.HotKey.hiden, function () {
         if (!app)
             return;
-        console.log();
-        if (Config_1.config.config.hidenMode === "hiden") {
-            app.style.display = app.style.display !== "none" ? "none" : "flex";
+        if (Config_1.config.config.hidenMode === 'hiden' || app.style.display === 'none') {
+            app.style.display = app.style.display !== 'none' ? 'none' : 'flex';
         }
-        if (Config_1.config.config.hidenMode === "replace") {
-            replace.style.zIndex = replace.style.zIndex !== "100" ? "100" : "110";
+        if (Config_1.config.config.hidenMode === 'replace') {
+            replace.style.zIndex = replace.style.zIndex !== '100' ? '100' : '110';
         }
     });
 }
 exports.addGlobalHotKeyListener = addGlobalHotKeyListener;
 function addSearchHotKeyListener() {
-    var father = document.querySelector("#webNovelHidener");
+    var father = document.querySelector('#webNovelHidener');
     (0, utils_1.keyListener)(father, Config_1.config.config.HotKey.search, function () {
-        var tools = document.querySelector("#webNovelHidener .tools");
+        var tools = document.querySelector('#webNovelHidener .tools');
         if (!tools)
             return;
         var classList = tools.classList;
-        console.log(classList.contains("wnhActive"));
-        if (!classList.contains("wnhActive")) {
-            tools.classList.add("wnhActive");
+        console.log(classList.contains('wnhActive'));
+        if (!classList.contains('wnhActive')) {
+            tools.classList.add('wnhActive');
         }
         else {
-            tools.classList.remove("wnhActive");
+            tools.classList.remove('wnhActive');
         }
     });
 }
 exports.addSearchHotKeyListener = addSearchHotKeyListener;
 function addNextEvent() {
-    var father = document.querySelector("#webNovelHidener .wnhView .novel");
-    var nextBtn = document.querySelector("#webNovelHidener .next");
+    var father = document.querySelector('#webNovelHidener .wnhView .novel');
+    var nextBtn = document.querySelector('#webNovelHidener .next');
     nextBtn.onclick = function () { return (0, page_1.toNext)(); };
     (0, utils_1.keyListener)(father, Config_1.config.config.HotKey.next, function () { return (0, page_1.toNext)(); });
 }
 exports.addNextEvent = addNextEvent;
 function addPreEvent() {
-    var father = document.querySelector("#webNovelHidener .wnhView .novel");
-    var preBtn = document.querySelector("#webNovelHidener .pre");
+    var father = document.querySelector('#webNovelHidener .wnhView .novel');
+    var preBtn = document.querySelector('#webNovelHidener .pre');
     preBtn.onclick = function () { return (0, page_1.toPre)(); };
     (0, utils_1.keyListener)(father, Config_1.config.config.HotKey.pre, function () { return (0, page_1.toPre)(); });
 }
@@ -836,15 +835,15 @@ function updateConfigEvent() {
             var theme = (_a = themeItem.textContent) === null || _a === void 0 ? void 0 : _a.toLowerCase();
             Config_1.config.updateConfig({ Theme: theme });
             (0, page_1.reloadConfigPage)();
-            var isLight = Config_1.config.config.Theme === "light";
+            var isLight = Config_1.config.config.Theme === 'light';
             var webNovelHidener = document.querySelector('#webNovelHidener');
             if (isLight) {
-                webNovelHidener.classList.remove("dark");
-                webNovelHidener.classList.add("light");
+                webNovelHidener.classList.remove('dark');
+                webNovelHidener.classList.add('light');
             }
             else {
-                webNovelHidener.classList.remove("light");
-                webNovelHidener.classList.add("dark");
+                webNovelHidener.classList.remove('light');
+                webNovelHidener.classList.add('dark');
             }
         });
     });
@@ -885,10 +884,10 @@ function updateConfigEvent() {
 exports.updateConfigEvent = updateConfigEvent;
 function addMaskEvent() {
     var isMask = Config_1.config.config.Mask;
-    var headerEle = document.querySelector("#webNovelHidener .header");
+    var headerEle = document.querySelector('#webNovelHidener .header');
     var webNovelHidener = document.querySelector('#webNovelHidener');
     if (isMask) {
-        webNovelHidener.classList.add("mask");
+        webNovelHidener.classList.add('mask');
         headerEle.innerHTML = template_1.headerMask;
     }
     var maskSwitch = document.getElementById('maskSwitch');
@@ -897,17 +896,17 @@ function addMaskEvent() {
         Config_1.config.updateConfig({ Mask: mask });
         if (mask) {
             headerEle.innerHTML = template_1.headerMask;
-            webNovelHidener.classList.add("mask");
+            webNovelHidener.classList.add('mask');
         }
         else {
             headerEle.innerHTML = template_1.header;
-            webNovelHidener.classList.remove("mask");
+            webNovelHidener.classList.remove('mask');
         }
     });
 }
 function updateReplaceTextEvent() {
     var textarea = document.querySelector('#webNovelHidener .textarea textarea');
-    var replaceEle = document.querySelector("#webNovelHidener .replace");
+    var replaceEle = document.querySelector('#webNovelHidener .replace');
     textarea.addEventListener('keydown', function (event) {
         var e = event;
         if (e.key === 'Enter' && !e.shiftKey) {

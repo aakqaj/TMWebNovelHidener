@@ -26,12 +26,12 @@ const DEFAULT_CONFIG: CONFIG = {
     https://app.huawei.com/pc（注：不要使用微信打开此链接，微信会拦截链接）
     如您有任何疑问欢迎随
     时致电950800，我们会一直为您提供温暖服务，感谢您的支持，祝您生活愉快！`,
-  Mask: false,
+  Mask: true,
   width: 360,
   height: 500,
   position: [230, 150],
   TitleSize: 14,
-  ContentSize: 12,
+  ContentSize: 14,
   Theme: 'light',
   HotKey: {
     hiden: 'ShiftLeft+Space',
