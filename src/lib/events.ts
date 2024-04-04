@@ -1,7 +1,7 @@
 import { config } from './Config';
 import Book from './book';
 import { clearContents, reloadConfigPage, renderContent, renderNext, renderPre, toNext, toPre } from './page';
-import { header, headerMask } from './template';
+import { headerMask } from './template';
 import { debounce, isNumeric, keyListener, updateStyle } from './utils';
 
 export function addMoveEvent() {
@@ -168,16 +168,7 @@ export function updateConfigEvent() {
       const theme = themeItem.textContent?.toLowerCase() as 'dark' | 'light';
       config.updateConfig({ Theme: theme });
       reloadConfigPage();
-
-      const isLight = config.config.Theme === 'light';
-      const webNovelHidener = document.querySelector('#webNovelHidener')!;
-      if (isLight) {
-        webNovelHidener.classList.remove('dark');
-        webNovelHidener.classList.add('light');
-      } else {
-        webNovelHidener.classList.remove('light');
-        webNovelHidener.classList.add('dark');
-      }
+      updateStyle();
     });
   });
 
@@ -187,12 +178,7 @@ export function updateConfigEvent() {
     const titleSize = Number(titleSizeSelect.value);
     config.updateConfig({ TitleSize: titleSize });
     reloadConfigPage();
-
-    updateStyle(`
-        #webNovelHidener .novel .part .title{ 
-         font-size: ${titleSize}px;
-        }
-         `);
+    updateStyle();
   });
 
   // 更新内容字体大小
@@ -201,12 +187,7 @@ export function updateConfigEvent() {
     const contentSize = Number(contentSizeSelect.value);
     config.updateConfig({ ContentSize: contentSize });
     reloadConfigPage();
-
-    updateStyle(`
-        #webNovelHidener .novel .part{ 
-         font-size: ${contentSize}px;
-        }
-         `);
+    updateStyle();
   });
 
   // 更新隐藏模式
@@ -243,13 +224,7 @@ function addMaskEvent() {
   maskSwitch.addEventListener('change', () => {
     const mask = maskSwitch.checked;
     config.updateConfig({ Mask: mask });
-    if (mask) {
-      headerEle.innerHTML = headerMask;
-      webNovelHidener.classList.add('mask');
-    } else {
-      headerEle.innerHTML = header;
-      webNovelHidener.classList.remove('mask');
-    }
+    updateStyle();
   });
 }
 

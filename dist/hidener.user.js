@@ -835,16 +835,7 @@ function updateConfigEvent() {
             var theme = (_a = themeItem.textContent) === null || _a === void 0 ? void 0 : _a.toLowerCase();
             Config_1.config.updateConfig({ Theme: theme });
             (0, page_1.reloadConfigPage)();
-            var isLight = Config_1.config.config.Theme === 'light';
-            var webNovelHidener = document.querySelector('#webNovelHidener');
-            if (isLight) {
-                webNovelHidener.classList.remove('dark');
-                webNovelHidener.classList.add('light');
-            }
-            else {
-                webNovelHidener.classList.remove('light');
-                webNovelHidener.classList.add('dark');
-            }
+            (0, utils_1.updateStyle)();
         });
     });
     // 更新标题字体大小
@@ -853,7 +844,7 @@ function updateConfigEvent() {
         var titleSize = Number(titleSizeSelect.value);
         Config_1.config.updateConfig({ TitleSize: titleSize });
         (0, page_1.reloadConfigPage)();
-        (0, utils_1.updateStyle)("\n        #webNovelHidener .novel .part .title{ \n         font-size: ".concat(titleSize, "px;\n        }\n         "));
+        (0, utils_1.updateStyle)();
     });
     // 更新内容字体大小
     var contentSizeSelect = document.getElementById('contentSize');
@@ -861,7 +852,7 @@ function updateConfigEvent() {
         var contentSize = Number(contentSizeSelect.value);
         Config_1.config.updateConfig({ ContentSize: contentSize });
         (0, page_1.reloadConfigPage)();
-        (0, utils_1.updateStyle)("\n        #webNovelHidener .novel .part{ \n         font-size: ".concat(contentSize, "px;\n        }\n         "));
+        (0, utils_1.updateStyle)();
     });
     // 更新隐藏模式
     var hidenModeItems = document.querySelectorAll('.hidenMode .capsule span');
@@ -894,14 +885,7 @@ function addMaskEvent() {
     maskSwitch.addEventListener('change', function () {
         var mask = maskSwitch.checked;
         Config_1.config.updateConfig({ Mask: mask });
-        if (mask) {
-            headerEle.innerHTML = template_1.headerMask;
-            webNovelHidener.classList.add('mask');
-        }
-        else {
-            headerEle.innerHTML = template_1.header;
-            webNovelHidener.classList.remove('mask');
-        }
+        (0, utils_1.updateStyle)();
     });
 }
 function updateReplaceTextEvent() {
@@ -946,28 +930,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DomInit = void 0;
-var Config_1 = __webpack_require__(889);
 var page_1 = __webpack_require__(210);
 var template_1 = __importDefault(__webpack_require__(352));
-function themeInit() {
-    var isLight = Config_1.config.config.Theme === "light";
-    var webNovelHidener = document.querySelector('#webNovelHidener');
-    if (isLight) {
-        webNovelHidener.classList.remove("dark");
-        webNovelHidener.classList.add("light");
-    }
-    else {
-        webNovelHidener.classList.remove("light");
-        webNovelHidener.classList.add("dark");
-    }
-}
+var utils_1 = __webpack_require__(721);
 function DomInit() {
-    var App = document.createElement("div");
-    App.id = "webNovelHidener";
-    App.style.display = "none";
+    var App = document.createElement('div');
+    App.id = 'webNovelHidener';
+    App.style.display = 'none';
     App.innerHTML = "\n    <div class=\"header\">\n    ".concat(template_1.default.header, "\n    </div>\n    ").concat(template_1.default.resizeHandle, "\n    ").concat(template_1.default.wnhView, "\n    ");
     document.body.append(App);
-    themeInit();
+    (0, utils_1.updateStyle)();
     (0, page_1.reloadConfigPage)();
 }
 exports.DomInit = DomInit;
@@ -1233,7 +1205,7 @@ exports["default"] = { header: exports.header, resizeHandle: exports.resizeHandl
 /***/ }),
 
 /***/ 721:
-/***/ (function(__unused_webpack_module, exports) {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
@@ -1273,7 +1245,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.adjustNewlines = exports.updateStyle = exports.getViewElement = exports.keyListener = exports.debounce = exports.isNumeric = exports.getContentByTitle = exports.splitNovelByTitle = exports.getFileContent = void 0;
+exports.adjustNewlines = exports.updateStyle = exports.setStyle = exports.getViewElement = exports.keyListener = exports.debounce = exports.isNumeric = exports.getContentByTitle = exports.splitNovelByTitle = exports.getFileContent = void 0;
+var Config_1 = __webpack_require__(889);
+var template_1 = __webpack_require__(352);
 function getFileContent() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
@@ -1462,11 +1436,39 @@ function getViewElement(fatherBox) {
     return null; // 如果没有找到在可视区域内的子元素，则返回 null
 }
 exports.getViewElement = getViewElement;
-function updateStyle(cssText) {
+function setStyle(cssText) {
     var style = document.createElement('style');
     style.type = 'text/css';
     style.textContent = cssText;
     document.head.appendChild(style);
+}
+exports.setStyle = setStyle;
+function updateStyle() {
+    var theme = Config_1.config.config.Theme;
+    var isMask = Config_1.config.config.Mask;
+    var titleSize = Config_1.config.config.TitleSize;
+    var contentSize = Config_1.config.config.ContentSize;
+    // theme
+    var webNovelHidener = document.querySelector('#webNovelHidener');
+    if (theme === 'light') {
+        webNovelHidener.classList.remove('dark');
+        webNovelHidener.classList.add('light');
+    }
+    else {
+        webNovelHidener.classList.remove('light');
+        webNovelHidener.classList.add('dark');
+    }
+    var headerEle = document.querySelector('#webNovelHidener .header');
+    if (isMask) {
+        headerEle.innerHTML = template_1.headerMask;
+        webNovelHidener.classList.add('mask');
+    }
+    else {
+        headerEle.innerHTML = template_1.header;
+        webNovelHidener.classList.remove('mask');
+    }
+    setStyle("\n  #webNovelHidener .novel .part{ \n   font-size: ".concat(contentSize, "px;\n  }\n   "));
+    setStyle("\n   #webNovelHidener .novel .part .title{ \n    font-size: ".concat(titleSize, "px;\n   }\n    "));
 }
 exports.updateStyle = updateStyle;
 function adjustNewlines(text) {

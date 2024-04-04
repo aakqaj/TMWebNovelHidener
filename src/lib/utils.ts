@@ -1,3 +1,6 @@
+import { config } from './Config';
+import { header, headerMask } from './template';
+
 interface Chapter {
   title: string;
 }
@@ -207,13 +210,51 @@ export function getViewElement(fatherBox: HTMLElement) {
   return null; // 如果没有找到在可视区域内的子元素，则返回 null
 }
 
-export function updateStyle(cssText: string) {
+export function setStyle(cssText: string) {
   const style = document.createElement('style');
   style.type = 'text/css';
 
   style.textContent = cssText;
 
   document.head.appendChild(style);
+}
+
+export function updateStyle() {
+  const theme = config.config.Theme;
+  const isMask = config.config.Mask;
+  const titleSize = config.config.TitleSize;
+  const contentSize = config.config.ContentSize;
+
+  // theme
+  const webNovelHidener = document.querySelector('#webNovelHidener')!;
+  if (theme === 'light') {
+    webNovelHidener.classList.remove('dark');
+    webNovelHidener.classList.add('light');
+  } else {
+    webNovelHidener.classList.remove('light');
+    webNovelHidener.classList.add('dark');
+  }
+
+  const headerEle = document.querySelector('#webNovelHidener .header')!;
+  if (isMask) {
+    headerEle.innerHTML = headerMask;
+    webNovelHidener.classList.add('mask');
+  } else {
+    headerEle.innerHTML = header;
+    webNovelHidener.classList.remove('mask');
+  }
+
+  setStyle(`
+  #webNovelHidener .novel .part{ 
+   font-size: ${contentSize}px;
+  }
+   `);
+
+  setStyle(`
+   #webNovelHidener .novel .part .title{ 
+    font-size: ${titleSize}px;
+   }
+    `);
 }
 
 export function adjustNewlines(text: string) {
